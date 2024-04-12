@@ -1,3 +1,0 @@
-D:/project_git/Client-Server/cmake-build-debug/CMakeFiles/Client.dir
-D:/project_git/Client-Server/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/project_git/Client-Server/cmake-build-debug/CMakeFiles/rebuild_cache.dir
