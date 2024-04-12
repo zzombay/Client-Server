@@ -40,8 +40,8 @@ namespace Net {
         std::cout << "WSA success" << std::endl;
 
         std::cout << "Creating socket" << std::endl;
-
-        if((clientsocket = (socket(AF_INET, SOCK_DGRAM, 0) == SOCKET_ERROR)))
+        clientsocket = socket(AF_INET, SOCK_DGRAM, 0);
+        if ( clientsocket == SOCKET_ERROR )
         {
             __debugbreak();
         }
@@ -51,7 +51,8 @@ namespace Net {
 
     void Client::receive()
     {
-        if ((recvlength = recvfrom(clientsocket, buffer, SIZE, 0, (struct sockaddr*) & info, &infolength)) == SOCKET_ERROR)
+        recvlength = recvfrom(clientsocket, buffer, SIZE, 0, (struct sockaddr*) & info, &infolength);
+        if (recvlength == SOCKET_ERROR)
         {
             std::cout << "Receive failed ..." + std::to_string(WSAGetLastError()) << std::endl;
             exit(EXIT_FAILURE);
@@ -61,7 +62,7 @@ namespace Net {
 
     void Client::proccess()
     {
-        std::cout << "Pakcet from: " + std::string(inet_ntoa(info.sin_addr)) + std::to_string(ntohs(info.sin_port)) << std::endl;
+        std::cout << "Pakcet from: " + std::string(inet_ntoa(info.sin_addr)) + ":" + std::to_string(ntohs(info.sin_port)) << std::endl;
         std::cout << "Data: ";
         for (unsigned i = 0; i < recvlength; ++ i)
         {
@@ -74,8 +75,8 @@ namespace Net {
     {
         std::cout << "Enter message : " << std::endl;
         std::getline(std::cin, message);
-
-        if ((sendto(clientsocket, message.c_str(), message.size(), 0, (struct sockaddr*) & info, infolength)) == SOCKET_ERROR)
+        int err = sendto(clientsocket, message.c_str(), message.size(), 0, (struct sockaddr *) &info, infolength);
+        if (err == SOCKET_ERROR)
         {
             std::cout << "Send failed ... " + std::to_string(WSAGetLastError()) << std::endl;
             exit(EXIT_FAILURE);
